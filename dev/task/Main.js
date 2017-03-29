@@ -234,7 +234,7 @@ export default class Main{
                         return null;
                 }
             } else {
-                console.log("String is incorrect");
+                throw "String is incorrect";
                 return null;
             }
         }
