@@ -46,6 +46,10 @@
 
 	'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
@@ -58,13 +62,9 @@
 
 	var _reactBootstrap = __webpack_require__(159);
 
-	var _task = __webpack_require__(412);
+	var _index = __webpack_require__(412);
 
-	var _task2 = _interopRequireDefault(_task);
-
-	var _task3 = __webpack_require__(414);
-
-	var _task4 = _interopRequireDefault(_task3);
+	var _index2 = _interopRequireDefault(_index);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74,47 +74,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Exercise = function (_React$Component) {
-	    _inherits(Exercise, _React$Component);
-
-	    function Exercise() {
-	        _classCallCheck(this, Exercise);
-
-	        return _possibleConstructorReturn(this, (Exercise.__proto__ || Object.getPrototypeOf(Exercise)).apply(this, arguments));
-	    }
-
-	    _createClass(Exercise, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                _reactBootstrap.Row,
-	                null,
-	                _react2.default.createElement(
-	                    _reactBootstrap.Col,
-	                    { xs: 12, sm: 12, className: 'text-center' },
-	                    _react2.default.createElement(
-	                        'h3',
-	                        null,
-	                        '\u0417\u0430\u0434\u0430\u043D\u0438\u0435 ',
-	                        this.props.num
-	                    ),
-	                    _react2.default.createElement(
-	                        'h4',
-	                        null,
-	                        this.props.title
-	                    ),
-	                    _react2.default.createElement('h4', { dangerouslySetInnerHTML: { __html: this.props.description } }),
-	                    this.props.children
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Exercise;
-	}(_react2.default.Component);
-
-	var Page = function (_React$Component2) {
-	    _inherits(Page, _React$Component2);
+	var Page = function (_React$Component) {
+	    _inherits(Page, _React$Component);
 
 	    function Page() {
 	        _classCallCheck(this, Page);
@@ -147,21 +108,23 @@
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    Exercise,
-	                    {
-	                        num: '1',
-	                        title: '\u041F\u043E\u0441\u0442\u0440\u043E\u0438\u0442\u044C \u043F\u0440\u0438\u043C\u0438\u0442\u0438\u0432\u043D\u044B\u0439 \u041C\u041F - \u0430\u0432\u0442\u043E\u043C\u0430\u0442:',
-	                        description: '<b>7.</b> {1^n 0^m | m>n\u22650}.' },
-	                    _react2.default.createElement(_task2.default, null)
-	                ),
-	                _react2.default.createElement('hr', null),
-	                _react2.default.createElement(
-	                    Exercise,
-	                    {
-	                        num: '2',
-	                        title: '\u041F\u043E\u0441\u0442\u0440\u043E\u0438\u0442\u044C \u043D\u0435\u043F\u0440\u0438\u043C\u0438\u0442\u0438\u0432\u043D\u044B\u0439 \u041C\u041F-\u0430\u0432\u0442\u043E\u043C\u0430\u0442 (\u043F\u043E\u0441\u0442\u0430\u0440\u0430\u0442\u044C\u0441\u044F \u043D\u0430\u0439\u0442\u0438 \u0430\u0432\u0442\u043E\u043C\u0430\u0442 \u0441 \u043E\u0434\u043D\u0438\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0435\u043C), \u043A\u043E\u0442\u043E\u0440\u044B\u0439 \u0431\u0443\u0434\u0435\u0442 \u0432\u044B\u043F\u043E\u043B\u043D\u044F\u0442\u044C \u043F\u0435\u0440\u0435\u0432\u043E\u0434:',
-	                        description: '<b>2.</b> 1<sup>n</sup>0<sup>m</sup>1<sup>n</sup>0<sup>m</sup> <i>\u0432</i> 1<sup>m</sup>0<sup>m+n</sup> , n>0, m>0 (<i>\u0440\u0430\u0437\u0440\u0435\u0448\u0430\u0435\u0442\u0441\u044F \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u0435 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u0438\u0445 \u0441\u0442\u0435\u043A\u043E\u0432</i>).' },
-	                    _react2.default.createElement(_task4.default, null)
+	                    _reactBootstrap.Row,
+	                    null,
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Col,
+	                        { xs: 12, sm: 12, className: 'text-center' },
+	                        _react2.default.createElement(
+	                            'h4',
+	                            null,
+	                            '\u0420\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u0430\u0442\u044C \u0430\u043B\u0433\u043E\u0440\u0438\u0442\u043C \u0438 \u043F\u0440\u043E\u0433\u0440\u0430\u043C\u043C\u0443 \u0441\u0438\u043D\u0442\u0430\u043A\u0441\u0438\u0447\u0435\u0441\u043A\u0438 \u0443\u043F\u0440\u0430\u0432\u043B\u044F\u0435\u043C\u043E\u0439 \u0442\u0440\u0430\u043D\u0441\u043B\u044F\u0446\u0438\u0438 \u043F\u0440\u043E\u0441\u0442\u044B\u0445 \u043E\u043F\u0435\u0440\u0430\u0442\u043E\u0440\u043E\u0432 \u043F\u0440\u0438\u0441\u0432\u0430\u0438\u0432\u0430\u043D\u0438\u044F, \u0441\u043E\u0434\u0435\u0440\u0436\u0430\u0449\u0438\u0445 \u043A\u0430\u043A \u0446\u0435\u043B\u044B\u0435, \u0442\u0430\u043A \u0438 \u0432\u0435\u0449\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0435 \u043F\u0435\u0440\u0435\u043C\u0435\u043D\u043D\u044B\u0435. \u0412 \u0441\u043E\u0441\u0442\u0430\u0432 \u0432\u044B\u0440\u0430\u0436\u0435\u043D\u0438\u044F \u043C\u043E\u0433\u0443\u0442 \u0432\u0445\u043E\u0434\u0438\u0442\u044C \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u0438 \u0441\u043B\u043E\u0436\u0435\u043D\u0438\u044F, \u0432\u044B\u0447\u0438\u0442\u0430\u043D\u0438\u044F, \u0443\u043C\u043D\u043E\u0436\u0435\u043D\u0438\u044F \u0438 \u0443\u043D\u0430\u0440\u043D\u044B\u0439 \u043C\u0438\u043D\u0443\u0441.'
+	                        ),
+	                        _react2.default.createElement(
+	                            'h4',
+	                            null,
+	                            '2. \u0413\u0435\u043D\u0435\u0440\u0430\u0446\u0438\u044F \u043E\u043F\u0442\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u043A\u043E\u0434\u0430.'
+	                        ),
+	                        _react2.default.createElement(_index2.default, null)
+	                    )
 	                )
 	            );
 	        }
@@ -169,6 +132,9 @@
 
 	    return Page;
 	}(_react2.default.Component);
+
+	exports.default = Page;
+
 
 	_reactDom2.default.render(_react2.default.createElement(Page, null), document.getElementById('app'));
 
@@ -39107,9 +39073,9 @@
 
 	var _reactBootstrap = __webpack_require__(159);
 
-	var _atomate = __webpack_require__(413);
+	var _Main = __webpack_require__(413);
 
-	var _atomate2 = _interopRequireDefault(_atomate);
+	var _Main2 = _interopRequireDefault(_Main);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39119,23 +39085,23 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Task1 = function (_React$Component) {
-	    _inherits(Task1, _React$Component);
+	var Task = function (_React$Component) {
+	    _inherits(Task, _React$Component);
 
-	    function Task1(props) {
-	        _classCallCheck(this, Task1);
+	    function Task(props) {
+	        _classCallCheck(this, Task);
 
-	        var _this = _possibleConstructorReturn(this, (Task1.__proto__ || Object.getPrototypeOf(Task1)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Task.__proto__ || Object.getPrototypeOf(Task)).call(this, props));
 
 	        _this.state = {
 	            data: ""
 	        };
-	        _this.Atomate = new _atomate2.default("");
+	        _this.Main = new _Main2.default("");
 	        _this.handlerChangedInput = _this.handlerChangedInput.bind(_this);
 	        return _this;
 	    }
 
-	    _createClass(Task1, [{
+	    _createClass(Task, [{
 	        key: 'handlerChangedInput',
 	        value: function handlerChangedInput(e) {
 	            this.setState({
@@ -39145,8 +39111,8 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            this.Atomate.setData(this.state.data);
-	            var result = this.Atomate.Do();
+	            this.Main.setData(this.state.data);
+	            var result = this.Main.Do();
 	            var style = result === 'Все хорошо' ? "success" : "danger";
 	            return _react2.default.createElement(
 	                _reactBootstrap.Row,
@@ -39170,10 +39136,10 @@
 	        }
 	    }]);
 
-	    return Task1;
+	    return Task;
 	}(_react2.default.Component);
 
-	exports.default = Task1;
+	exports.default = Task;
 
 /***/ },
 /* 413 */
@@ -39189,356 +39155,462 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var Atomate = function () {
-	    function Atomate(str) {
-	        _classCallCheck(this, Atomate);
+	var Main = function () {
+	    function Main() {
+	        var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
 
-	        this.data = str;
-	    }
-
-	    _createClass(Atomate, [{
-	        key: 'setData',
-	        value: function setData(str) {
-	            this.data = str;
-	        }
-	    }, {
-	        key: 'Do',
-	        value: function Do() {
-	            var n = this.data.length;
-	            var currState = 1;
-	            var memory = [];
-	            var error = null;
-	            for (var i = 0; i < n && error === null; i++) {
-	                // идем по всей строке
-	                var symbol = this.data[i];
-	                switch (currState) {
-	                    case 1:
-	                        // состояние 1 - еденицы
-	                        if (memory.length) {
-	                            if (symbol == '1') {
-	                                memory.push('Z');
-	                                currState = 1;
-	                            } else if (symbol == '0') {
-	                                memory.pop();
-	                                currState = 2;
-	                            } else {
-	                                error = "Запрещенный символ";
-	                            }
-	                        } else {
-	                            if (symbol == '1') {
-	                                memory.push('Z');
-	                                currState = 1;
-	                            } else if (symbol == '0') {
-	                                currState = 3;
-	                            } else {
-	                                error = "Запрещенный символ";
-	                            }
-	                        }
-	                        break;
-	                    case 2:
-	                        // состояние 2 - нули (если есть еще еденицы в памяти)
-	                        if (memory.length) {
-	                            if (symbol == '1') {
-	                                error = "Запрещена 1 после 0";
-	                            } else if (symbol == '0') {
-	                                memory.pop();
-	                                currState = 2;
-	                            } else {
-	                                error = "Запрещенный символ";
-	                            }
-	                        } else {
-	                            if (symbol == '1') {
-	                                error = "Запрещена 1 после 0";
-	                            } else if (symbol == '0') {
-	                                currState = 3;
-	                            } else {
-	                                error = "Запрещенный символ";
-	                            }
-	                        }
-	                        break;
-	                    case 3:
-	                        // состояние 3 - нули (если кончились еденицы)
-	                        if (memory.length) {
-	                            if (symbol == '1') {
-	                                error = "Неопознанная ошибка - непустой стек (память)";
-	                            } else if (symbol == '0') {
-	                                error = "Неопознанная ошибка - непустой стек (память)";
-	                            } else {
-	                                error = "Запрещенный символ";
-	                            }
-	                        } else {
-	                            if (symbol == '1') {
-	                                error = "Запрещена 1 после 0";
-	                            } else if (symbol == '0') {
-	                                currState = 3;
-	                            } else {
-	                                error = "Запрещенный символ";
-	                            }
-	                        }
-	                        break;
-	                }
-	            }
-	            if (error === null) {
-	                switch (currState) {
-	                    case 1:
-	                        error = memory.length ? "Не хватает нулей" : "Нет нулей";
-	                        break;
-	                    case 2:
-	                        error = memory.length ? "Колличество 0 меньше колличества 1" : "Колличество 0 равно колличеству 1";
-	                        break;
-	                    case 3:
-	                        if (memory.length) error = "Неопознанная ошибка - непустой стек (память)";
-	                        break;
-	                }
-	            }
-	            return error === null ? "Все хорошо" : error;
-	        }
-	    }]);
-
-	    return Atomate;
-	}();
-
-	exports.default = Atomate;
-
-/***/ },
-/* 414 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactBootstrap = __webpack_require__(159);
-
-	var _atomate = __webpack_require__(415);
-
-	var _atomate2 = _interopRequireDefault(_atomate);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Task1 = function (_React$Component) {
-	    _inherits(Task1, _React$Component);
-
-	    function Task1(props) {
-	        _classCallCheck(this, Task1);
-
-	        var _this = _possibleConstructorReturn(this, (Task1.__proto__ || Object.getPrototypeOf(Task1)).call(this, props));
-
-	        _this.state = {
-	            data: ""
-	        };
-	        _this.Atomate = new _atomate2.default("");
-	        _this.handlerChangedInput = _this.handlerChangedInput.bind(_this);
-	        return _this;
-	    }
-
-	    _createClass(Task1, [{
-	        key: 'handlerChangedInput',
-	        value: function handlerChangedInput(e) {
-	            this.setState({
-	                data: e.target.value
-	            });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            this.Atomate.setData(this.state.data);
-	            var result = this.Atomate.Do();
-	            var style = result.match(/(0|1)+/) !== null ? "success" : "danger";
-	            return _react2.default.createElement(
-	                _reactBootstrap.Row,
-	                null,
-	                _react2.default.createElement(
-	                    _reactBootstrap.Col,
-	                    { xs: 12, sm: 6, smOffset: 3 },
-	                    _react2.default.createElement('input', { type: 'text', onChange: this.handlerChangedInput, className: 'form-control' }),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement(
-	                        'ul',
-	                        { className: 'list-group' },
-	                        _react2.default.createElement(
-	                            'li',
-	                            { className: "list-group-item list-group-item-" + style },
-	                            result
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Task1;
-	}(_react2.default.Component);
-
-	exports.default = Task1;
-
-/***/ },
-/* 415 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var Atomate = function () {
-	    function Atomate(str) {
-	        _classCallCheck(this, Atomate);
+	        _classCallCheck(this, Main);
 
 	        this.setData(str);
+
+	        this.Operator = {
+	            ASSIGN: "ASSIGN",
+	            ADD: "ADD",
+	            SUBTRACT: "SUBTRACT",
+	            MULTIPLY: "MULTIPLY",
+	            DIVIDE: "DIVIDE"
+	        };
+
+	        this.NodeType = {
+	            OPERATOR: "OPERATOR",
+	            ID: "ID",
+	            CONSTANT: "CONSTANT"
+	        };
+
+	        this.ParserState = {
+	            INIT: "INIT",
+	            ID: "ID",
+	            CONST: "CONST",
+	            OP: "OP",
+	            OPENING: "OPENING",
+	            CLOSING: "CLOSING",
+	            ERROR: "ERROR"
+	        };
 	    }
 
-	    _createClass(Atomate, [{
-	        key: 'setData',
+	    _createClass(Main, [{
+	        key: "setData",
 	        value: function setData(str) {
 	            this.data = str;
-	            this.memory = 'X'; // init
 	        }
 	    }, {
-	        key: 'getLastElement',
-	        value: function getLastElement() {
-	            return this.memory.length ? this.memory[this.memory.length - 1] : null;
+	        key: "isLetter",
+	        value: function isLetter(str) {
+	            return str.match(/[a-zA-Z]/i);
 	        }
 	    }, {
-	        key: 'replaceMemory',
-	        value: function replaceMemory(sym) {
-	            if (this.memory.length) {
-	                this.popMemory();
-	                this.memory += sym;
+	        key: "isDigit",
+	        value: function isDigit(str) {
+	            return str.match(/[0-9]/i);
+	        }
+	    }, {
+	        key: "parse",
+	        value: function parse(exp) {
+	            if (exp == null || exp.length == 0) return null;
+
+	            if (exp.match(/\\([a-zA-Z0-9+*-/]+\\)/)) exp = exp.substr(1, exp.length - 1);
+	            if (exp[0] == "-") {
+	                var node = {
+	                    type: this.Operator.SUBTRACT,
+	                    left: this.parse(exp.substr(1)),
+	                    right: null
+	                };
+	                return node;
 	            }
-	        }
-	    }, {
-	        key: 'popMemory',
-	        value: function popMemory() {
-	            if (this.memory.length) this.memory = this.memory.slice(0, this.memory.length - 1);
-	        }
-	    }, {
-	        key: 'pushMemory',
-	        value: function pushMemory(sym) {
-	            this.memory += sym;
-	        }
-	    }, {
-	        key: 'Do',
-	        value: function Do() {
-	            var n = this.data.length;
-	            var error = null;
-	            var result = [[], [], [], []];
-	            for (var i = 0; i < n && error === null;) {
-	                // идем по всей строке
-	                var symbol = this.data[i];
 
-	                if (this.getLastElement() === 'X') {
-
-	                    // X
-	                    if (symbol === '0') {
-	                        error = 'Нет едениц';
-	                    } else if (symbol === '1') {
-	                        this.replaceMemory("A");
-	                    } else error = 'Некорректный символ';
-	                } else if (this.getLastElement() === 'A') {
-
-	                    // A
-	                    if (symbol === '0') {
-	                        this.popMemory();
-	                    } else if (symbol === '1') {
-	                        this.replaceMemory("CB");
-	                        i++;
-	                        result[0].push(1);
-	                    } else error = 'Некорректный символ';
-	                } else if (this.getLastElement() === 'B') {
-
-	                    // B
-	                    if (symbol === '0') {
-	                        error = "Не хватает едениц";
-	                    } else if (symbol === '1') {
-	                        this.replaceMemory("CA");
-	                        i++;
-	                        result[2].push(1);
-	                    } else error = 'Некорректный символ';
-	                } else if (this.getLastElement() === 'C') {
-
-	                    // C
-	                    if (symbol === '0') {
-	                        this.popMemory();
-	                        this.replaceMemory("D");
-	                        i++;
-	                        result[1].push(0);
-	                    } else if (symbol === '1') {
-	                        error = "Еденица запрещена после нуля";
-	                    } else error = 'Некорректный символ';
-	                } else if (this.getLastElement() === 'D') {
-
-	                    // D
-	                    if (symbol === '0') {
-	                        this.popMemory();
-	                        result[3].push(0);
-	                        i++;
-	                    } else if (symbol === '1') {
-	                        error = "Еденица запрещена после нуля";
-	                    } else error = 'Некорректный символ';
-	                } else if (this.getLastElement() === null) {
-
-	                    // empty
-	                    if (symbol === '0') {
-	                        this.pushMemory('E');
-	                    } else if (symbol === '1') {
-	                        error = "Еденица запрещена после нуля";
-	                    } else error = 'Некорректный символ';
-	                } else if (this.getLastElement() === 'E') {
-
-	                    // E
-	                    if (symbol === '0') {
-	                        this.replaceMemory('F');
-	                        result[1].push(0);
-	                        i++;
-	                    } else if (symbol === '1') {
-	                        error = "Еденица запрещена после нуля";
-	                    } else error = 'Некорректный символ';
-	                } else if (this.getLastElement() === 'F') {
-
-	                    // F
-	                    if (symbol === '0') {
-	                        this.replaceMemory('E');
-	                        result[3].push(0);
-	                        i++;
-	                    } else if (symbol === '1') {
-	                        error = "Еденица запрещена после нуля";
-	                    } else error = 'Некорректный символ';
+	            var state = this.ParserState.INIT;
+	            var value = [];
+	            for (var i = exp.length - 1; i >= 0; i--) {
+	                var c = exp.charAt(i);
+	                if (this.isLetter(c)) {
+	                    switch (state) {
+	                        case this.ParserState.OPENING:
+	                            return null;
+	                        default:
+	                            state = this.ParserState.ID;
+	                            value.push(c);
+	                            break;
+	                    }
+	                } else if (this.isDigit(c)) {
+	                    switch (state) {
+	                        case this.ParserState.ID:
+	                            value.push(c);
+	                            break;
+	                        case this.ParserState.INIT:
+	                            state = this.ParserState.CONST;
+	                            value.push(c);
+	                            break;
+	                        case this.ParserState.OPENING:
+	                            return null;
+	                        default:
+	                            state = this.ParserState.CONST;
+	                            value.push(c);
+	                            break;
+	                    }
+	                } else if (c == '=' || c == '+' || c == '-') {
+	                    var operator = "";
+	                    var _node = {
+	                        left: null,
+	                        right: null,
+	                        type: null
+	                    };
+	                    switch (state) {
+	                        case this.ParserState.ID:
+	                            state = this.ParserState.OP;
+	                            operator = this.Operator.ASSIGN;
+	                            switch (c) {
+	                                case '=':
+	                                    operator = this.Operator.ASSIGN;
+	                                    break;
+	                                case '+':
+	                                    operator = this.Operator.ADD;
+	                                    break;
+	                                case '-':
+	                                    operator = this.Operator.SUBTRACT;
+	                                    break;
+	                                default:
+	                                    break;
+	                            }
+	                            var _node2 = {
+	                                type: operator,
+	                                left: null,
+	                                right: null
+	                            };
+	                            if (0 - i == 0) {
+	                                value.push(c);
+	                            }
+	                            _node2.right = this.parse(value.join(""));
+	                            _node2.left = this.parse(exp.substr(0, i));
+	                            return _node2;
+	                        case this.ParserState.CONST:
+	                            state = this.ParserState.OP;
+	                            operator = this.Operator.ASSIGN;
+	                            switch (c) {
+	                                case '=':
+	                                    operator = this.Operator.ASSIGN;
+	                                    break;
+	                                case '+':
+	                                    operator = this.Operator.ADD;
+	                                    break;
+	                                case '-':
+	                                    operator = this.Operator.SUBTRACT;
+	                                    break;
+	                                default:
+	                                    break;
+	                            }
+	                            _node2 = {
+	                                type: operator,
+	                                left: null,
+	                                right: null
+	                            };
+	                            if (0 - i == 0) {
+	                                value.push(c);
+	                            }
+	                            _node2.right = this.parse(value.join(""));
+	                            _node2.left = this.parse(exp.substr(0, i));
+	                            return _node2;
+	                        case this.ParserState.OPENING:
+	                            state = this.ParserState.OP;
+	                            operator = this.Operator.ASSIGN;
+	                            switch (c) {
+	                                case '=':
+	                                    operator = this.Operator.ASSIGN;
+	                                    break;
+	                                case '+':
+	                                    operator = this.Operator.ADD;
+	                                    break;
+	                                case '-':
+	                                    operator = this.Operator.SUBTRACT;
+	                                    break;
+	                                default:
+	                                    break;
+	                            }
+	                            _node2 = {
+	                                type: operator,
+	                                left: null,
+	                                right: null
+	                            };
+	                            if (0 - i == 0) {
+	                                value.push(c);
+	                            }
+	                            _node2.right = this.parse(value.join(""));
+	                            _node2.left = this.parse(exp.substr(0, i));
+	                            return _node2;
+	                        case this.ParserState.INIT:
+	                            value.push(c);
+	                            break;
+	                        case this.ParserState.OP:
+	                            value.push(c);
+	                            break;
+	                        default:
+	                            return null;
+	                    }
+	                } else if (c == '*' || c == '/') {
+	                    switch (state) {
+	                        case this.ParserState.ID:
+	                            state = this.ParserState.OP;
+	                            value.push(c);
+	                            break;
+	                        case this.ParserState.CONST:
+	                            state = this.ParserState.OP;
+	                            value.push(c);
+	                            break;
+	                        case this.ParserState.OPENING:
+	                            state = this.ParserState.OP;
+	                            value.push(c);
+	                            break;
+	                        default:
+	                            return null;
+	                    }
+	                } else if (c == '(') {
+	                    switch (state) {
+	                        case this.ParserState.CONST:
+	                            state = this.ParserState.OPENING;
+	                            value.push(c);
+	                            break;
+	                        case this.ParserState.ID:
+	                            state = this.ParserState.OPENING;
+	                            value.push(c);
+	                            break;
+	                        default:
+	                            return null;
+	                    }
+	                } else if (c == ')') {
+	                    var j = i + 1;
+	                    switch (state) {
+	                        case this.ParserState.INIT:
+	                            while (c != '(') {
+	                                c = exp.charAt(--i);
+	                            }
+	                            value.push(exp.substr(i, j));
+	                            state = this.ParserState.OPENING;
+	                            break;
+	                        case this.ParserState.OP:
+	                            while (c != '(') {
+	                                c = exp.charAt(--i);
+	                            }
+	                            value.push(exp.substr(i, j));
+	                            state = this.ParserState.OPENING;
+	                            break;
+	                        default:
+	                            return null;
+	                    }
+	                } else {
+	                    console.log("String is incorrect");
+	                    return null;
 	                }
 	            }
-	            if (error === null) {
-	                if (this.getLastElement() === 'X') error = "Нет едениц и нулей";else if (this.getLastElement() === 'A') error = "Нет нулей";else if (this.getLastElement() === 'B') error = "Не хватает едениц и нет нулей";else if (this.getLastElement() === 'C') error = "Мало нулей";else if (this.getLastElement() === 'D') error = "Мало нулей";else if (this.getLastElement() === null) error = "Колличество нулей и едениц совпадает";else if (this.getLastElement() === 'F') error = "Не хватает нулей";
+
+	            state = this.ParserState.INIT;
+	            value = [];
+	            for (var _i = exp.length - 1; _i >= 0; _i--) {
+	                var _c = exp.charAt(_i);
+	                if (this.isLetter(_c)) {
+	                    switch (state) {
+	                        case this.ParserState.OPENING:
+	                            return null;
+	                        default:
+	                            state = this.ParserState.ID;
+	                            value.push(_c);
+	                            break;
+	                    }
+	                } else if (this.isDigit(_c)) {
+	                    switch (state) {
+	                        case this.ParserState.ID:
+	                            value.push(_c);
+	                            break;
+	                        case this.ParserState.INIT:
+	                            state = this.ParserState.CONST;
+	                            value.push(_c);
+	                            break;
+	                        case this.ParserState.OPENING:
+	                            return null;
+	                        default:
+	                            state = this.ParserState.CONST;
+	                            value.push(_c);
+	                            break;
+	                    }
+	                } else if (_c == '-' || _c == '+') {
+	                    switch (state) {
+	                        case this.ParserState.INIT:
+	                            value.push(_c);
+	                            break;
+	                        case this.ParserState.OP:
+	                            value.push(_c);
+	                            break;
+	                        default:
+	                            return null;
+	                    }
+	                } else if (_c == '*' || _c == '/') {
+	                    var _operator = "";
+	                    var _node3 = {
+	                        type: null,
+	                        left: null,
+	                        right: null
+	                    };
+	                    switch (state) {
+	                        case this.ParserState.ID:
+	                            _operator = this.Operator.MULTIPLY;
+	                            switch (_c) {
+	                                case '*':
+	                                    _operator = this.Operator.MULTIPLY;
+	                                    break;
+	                                case '/':
+	                                    _operator = this.Operator.DIVIDE;
+	                                    break;
+	                                default:
+	                                    break;
+	                            }
+	                            _node3 = {
+	                                type: _operator,
+	                                left: null,
+	                                right: null
+	                            };
+	                            _node3.right = this.parse(value.join(""));
+	                            _node3.left = this.parse(exp.substr(0, _i));
+	                            return _node3;
+	                        case this.ParserState.CONST:
+	                            _operator = this.Operator.MULTIPLY;
+	                            switch (_c) {
+	                                case '*':
+	                                    _operator = this.Operator.MULTIPLY;
+	                                    break;
+	                                case '/':
+	                                    _operator = this.Operator.DIVIDE;
+	                                    break;
+	                                default:
+	                                    break;
+	                            }
+	                            _node3 = {
+	                                type: _operator,
+	                                left: null,
+	                                right: null
+	                            };
+	                            _node3.right = this.parse(value.join(""));
+	                            _node3.left = this.parse(exp.substr(0, _i));
+	                            return _node3;
+	                        case this.ParserState.OPENING:
+	                            _operator = this.Operator.MULTIPLY;
+	                            switch (_c) {
+	                                case '*':
+	                                    _operator = this.Operator.MULTIPLY;
+	                                    break;
+	                                case '/':
+	                                    _operator = this.Operator.DIVIDE;
+	                                    break;
+	                                default:
+	                                    break;
+	                            }
+	                            _node3 = {
+	                                type: _operator,
+	                                left: null,
+	                                right: null
+	                            };
+	                            _node3.right = this.parse(value.join(""));
+	                            _node3.left = this.parse(exp.substr(0, _i));
+	                            return _node3;
+	                        default:
+	                            return null;
+	                    }
+	                } else if (_c == '(') {
+	                    switch (state) {
+	                        case this.ParserState.CONST:
+	                            state = this.ParserState.OPENING;
+	                            value.push(_c);
+	                            break;
+	                        case this.ParserState.ID:
+	                            state = this.ParserState.OPENING;
+	                            value.push(_c);
+	                            break;
+	                        default:
+	                            return null;
+	                    }
+	                } else if (_c == ')') {
+	                    var _j = _i + 1;
+	                    switch (state) {
+	                        case this.ParserState.INIT:
+	                            while (_c != '(') {
+	                                _c = exp.charAt(--_i);
+	                            }
+	                            value.push(exp.substr(_i, _j));
+	                            state = this.ParserState.OPENING;
+	                            break;
+	                        case this.ParserState.OP:
+	                            while (_c != '(') {
+	                                _c = exp.charAt(--_i);
+	                            }
+	                            value.push(exp.substr(_i, _j));
+	                            state = this.ParserState.OPENING;
+	                            break;
+	                        default:
+	                            return null;
+	                    }
+	                } else {
+	                    return null;
+	                }
 	            }
 
-	            var resultStrings = [result[0].join(""), result[1].join(""), result[2].join(""), result[3].join("")];
+	            if (state == this.ParserState.ID) {
+	                if (value.join("")[0] == "-") {
+	                    var _node4 = {
+	                        type: this.Operator.SUBTRACT,
+	                        left: null,
+	                        right: null
+	                    };
+	                    _node4.left = {
+	                        type: value.join("").substr(1),
+	                        left: null,
+	                        right: null
+	                    };
+	                    return _node4;
+	                }
+	                return {
+	                    type: value.join(""),
+	                    left: null,
+	                    right: null
+	                };
+	            } else if (state == this.ParserState.CONST) {
+	                if (value.join("")[0] == "-") {
+	                    var _node5 = {
+	                        type: this.Operator.SUBTRACT,
+	                        left: null,
+	                        right: null
+	                    };
+	                    _node5.left = {
+	                        type: value.join("").substr(1),
+	                        left: null,
+	                        right: null
+	                    };
+	                    return _node5;
+	                }
+	                return {
+	                    type: value.join(""),
+	                    left: null,
+	                    right: null
+	                };
+	            }
 
-	            return error === null ? resultStrings.join("") : error;
+	            return null;
+	        }
+	    }, {
+	        key: "Do",
+	        value: function Do() {
+	            if (this.data.length >= 3) {
+	                var eq = this.data.indexOf('=');
+	                var root = {
+	                    left: this.parse(this.data.substr(0, eq)),
+	                    right: this.parse(this.data.substr(eq + 1)),
+	                    type: this.Operator.ASSIGN
+	                };
+	                console.log(root);
+	            }
 	        }
 	    }]);
 
-	    return Atomate;
+	    return Main;
 	}();
 
-	exports.default = Atomate;
+	exports.default = Main;
 
 /***/ }
 /******/ ]);

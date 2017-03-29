@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
 import Main from './Main';
 
-export default class Task1 extends React.Component{
+export default class Task extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -20,8 +20,8 @@ export default class Task1 extends React.Component{
 
     render(){
         this.Main.setData(this.state.data);
-        let result = this.Atomate.Do();
-        let style = result === 'Все хорошо' ? "success" : "danger";
+        let result = this.Main.Do();
+        let style = (result === 'Все хорошо') ? "success" : "danger";
         return(
             <Row>
                 <Col xs = {12} sm = {6} smOffset = {3}>

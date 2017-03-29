@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Grid, Row, Col} from 'react-bootstrap';
 
-import Task from './task/';
+import Task from './task/index.jsx';
 
-class Page extends React.Component{
+export default class Page extends React.Component{
     render(){
         return(
             <Grid>
