@@ -42,6 +42,7 @@ export default class Main{
     }
 
     parse(exp) {
+        console.log(exp);
         if (exp == null || exp.length == 0)
             return null;
 
@@ -61,14 +62,10 @@ export default class Main{
         for (let i = exp.length - 1; i >= 0; i--) {
             let c = exp.charAt(i);
             if (this.isLetter(c)) {
-                switch (state) {
-                    case this.ParserState.OPENING:
-                        return null;
-                    default:
-                        state = this.ParserState.ID;
-                        value.push(c);
-                        break;
-                }
+                if (state == this.ParserState.OPENING)
+                    return null;
+                state = this.ParserState.ID;
+                value.push(c);
             } else if (this.isDigit(c)) {
                 switch (state) {
                     case this.ParserState.ID:
@@ -86,7 +83,7 @@ export default class Main{
                         break;
                 }
             } else if (c == '=' || c == '+' || c == '-') {
-                let operator = "";
+                let operator;
                 let node = {
                     left: null,
                     right: null,
@@ -109,7 +106,7 @@ export default class Main{
                             default:
                                 break;
                         }
-                        let node = {
+                        node = {
                             type: operator,
                             left: null,
                             right: null
@@ -186,13 +183,7 @@ export default class Main{
             } else if (c == '*' || c == '/') {
                 switch (state) {
                     case this.ParserState.ID:
-                        state = this.ParserState.OP;
-                        value.push(c);
-                        break;
                     case this.ParserState.CONST:
-                        state = this.ParserState.OP;
-                        value.push(c);
-                        break;
                     case this.ParserState.OPENING:
                         state = this.ParserState.OP;
                         value.push(c);
@@ -203,9 +194,6 @@ export default class Main{
             } else if (c == '(') {
                 switch (state) {
                     case this.ParserState.CONST:
-                        state = this.ParserState.OPENING;
-                        value.push(c);
-                        break;
                     case this.ParserState.ID:
                         state = this.ParserState.OPENING;
                         value.push(c);
@@ -214,19 +202,14 @@ export default class Main{
                         return null;
                 }
             } else if (c == ')') {
-                let j = i + 1;
+                let j = i;
                 switch (state) {
                     case this.ParserState.INIT:
-                        while (c != '(') {
-                            c = exp.charAt(--i);
-                        }
-                        value.push(exp.substr(i, j));
-                        state = this.ParserState.OPENING;
-                        break;
                     case this.ParserState.OP:
-                        while (c != '(') {
+                        while (c != '(' && i > 0) {
                             c = exp.charAt(--i);
                         }
+                        if (i < 0) throw "Не сбалансированы скобки";
                         value.push(exp.substr(i, j));
                         state = this.ParserState.OPENING;
                         break;
@@ -280,82 +263,26 @@ export default class Main{
                         return null;
                 }
             } else if (c == '*' || c == '/') {
-                let operator = "";
-                let node = {
-                    type: null,
-                    left: null,
-                    right: null
-                };
                 switch (state) {
                     case this.ParserState.ID:
-                        operator = this.Operator.MULTIPLY;
-                        switch (c) {
-                            case '*':
-                                operator = this.Operator.MULTIPLY;
-                                break;
-                            case '/':
-                                operator = this.Operator.DIVIDE;
-                                break;
-                            default:
-                                break;
-                        }
-                        node = {
-                            type: operator,
-                            left: null,
-                            right: null
-                        };
-                        node.right = this.parse(value.join(""));
-                        node.left = this.parse(exp.substr(0, i));
-                        return node;
                     case this.ParserState.CONST:
-                        operator = this.Operator.MULTIPLY;
-                        switch (c) {
-                            case '*':
-                                operator = this.Operator.MULTIPLY;
-                                break;
-                            case '/':
-                                operator = this.Operator.DIVIDE;
-                                break;
-                            default:
-                                break;
-                        }
-                        node = {
-                            type: operator,
-                            left: null,
-                            right: null
-                        };
-                        node.right = this.parse(value.join(""));
-                        node.left = this.parse(exp.substr(0, i));
-                        return node;
                     case this.ParserState.OPENING:
-                        operator = this.Operator.MULTIPLY;
+                        let operator = this.Operator.MULTIPLY;
                         switch (c) {
-                            case '*':
-                                operator = this.Operator.MULTIPLY;
-                                break;
-                            case '/':
-                                operator = this.Operator.DIVIDE;
-                                break;
-                            default:
-                                break;
+                            case '*': operator = this.Operator.MULTIPLY; break;
+                            case '/': operator = this.Operator.DIVIDE; break;
                         }
-                        node = {
+                        return {
                             type: operator,
-                            left: null,
-                            right: null
+                            left: this.parse(exp.substr(0, i)),
+                            right: this.parse(value.join(""))
                         };
-                        node.right = this.parse(value.join(""));
-                        node.left = this.parse(exp.substr(0, i));
-                        return node;
                     default:
                         return null;
                 }
             } else if (c == '(') {
                 switch (state) {
                     case this.ParserState.CONST:
-                        state = this.ParserState.OPENING;
-                        value.push(c);
-                        break;
                     case this.ParserState.ID:
                         state = this.ParserState.OPENING;
                         value.push(c);
@@ -367,16 +294,11 @@ export default class Main{
                 let j = i + 1;
                 switch (state) {
                     case this.ParserState.INIT:
-                        while (c != '(') {
-                            c = exp.charAt(--i);
-                        }
-                        value.push(exp.substr(i, j));
-                        state = this.ParserState.OPENING;
-                        break;
                     case this.ParserState.OP:
-                        while (c != '(') {
+                        while (c != '(' && i > 0) {
                             c = exp.charAt(--i);
                         }
+                        if (i < 0) throw "Не сбалансированы скобки";
                         value.push(exp.substr(i, j));
                         state = this.ParserState.OPENING;
                         break;

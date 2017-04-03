@@ -39206,6 +39206,7 @@
 	    }, {
 	        key: "parse",
 	        value: function parse(exp) {
+	            console.log(exp);
 	            if (exp == null || exp.length == 0) return null;
 
 	            if (exp.match(/\\([a-zA-Z0-9+*-/]+\\)/)) exp = exp.substr(1, exp.length - 1);
@@ -39223,14 +39224,9 @@
 	            for (var i = exp.length - 1; i >= 0; i--) {
 	                var c = exp.charAt(i);
 	                if (this.isLetter(c)) {
-	                    switch (state) {
-	                        case this.ParserState.OPENING:
-	                            return null;
-	                        default:
-	                            state = this.ParserState.ID;
-	                            value.push(c);
-	                            break;
-	                    }
+	                    if (state == this.ParserState.OPENING) return null;
+	                    state = this.ParserState.ID;
+	                    value.push(c);
 	                } else if (this.isDigit(c)) {
 	                    switch (state) {
 	                        case this.ParserState.ID:
@@ -39248,7 +39244,7 @@
 	                            break;
 	                    }
 	                } else if (c == '=' || c == '+' || c == '-') {
-	                    var operator = "";
+	                    var operator = void 0;
 	                    var _node = {
 	                        left: null,
 	                        right: null,
@@ -39271,7 +39267,7 @@
 	                                default:
 	                                    break;
 	                            }
-	                            var _node2 = {
+	                            _node = {
 	                                type: operator,
 	                                left: null,
 	                                right: null
@@ -39279,9 +39275,9 @@
 	                            if (0 - i == 0) {
 	                                value.push(c);
 	                            }
-	                            _node2.right = this.parse(value.join(""));
-	                            _node2.left = this.parse(exp.substr(0, i));
-	                            return _node2;
+	                            _node.right = this.parse(value.join(""));
+	                            _node.left = this.parse(exp.substr(0, i));
+	                            return _node;
 	                        case this.ParserState.CONST:
 	                            state = this.ParserState.OP;
 	                            operator = this.Operator.ASSIGN;
@@ -39298,7 +39294,7 @@
 	                                default:
 	                                    break;
 	                            }
-	                            _node2 = {
+	                            _node = {
 	                                type: operator,
 	                                left: null,
 	                                right: null
@@ -39306,9 +39302,9 @@
 	                            if (0 - i == 0) {
 	                                value.push(c);
 	                            }
-	                            _node2.right = this.parse(value.join(""));
-	                            _node2.left = this.parse(exp.substr(0, i));
-	                            return _node2;
+	                            _node.right = this.parse(value.join(""));
+	                            _node.left = this.parse(exp.substr(0, i));
+	                            return _node;
 	                        case this.ParserState.OPENING:
 	                            state = this.ParserState.OP;
 	                            operator = this.Operator.ASSIGN;
@@ -39325,7 +39321,7 @@
 	                                default:
 	                                    break;
 	                            }
-	                            _node2 = {
+	                            _node = {
 	                                type: operator,
 	                                left: null,
 	                                right: null
@@ -39333,9 +39329,9 @@
 	                            if (0 - i == 0) {
 	                                value.push(c);
 	                            }
-	                            _node2.right = this.parse(value.join(""));
-	                            _node2.left = this.parse(exp.substr(0, i));
-	                            return _node2;
+	                            _node.right = this.parse(value.join(""));
+	                            _node.left = this.parse(exp.substr(0, i));
+	                            return _node;
 	                        case this.ParserState.INIT:
 	                            value.push(c);
 	                            break;
@@ -39348,13 +39344,7 @@
 	                } else if (c == '*' || c == '/') {
 	                    switch (state) {
 	                        case this.ParserState.ID:
-	                            state = this.ParserState.OP;
-	                            value.push(c);
-	                            break;
 	                        case this.ParserState.CONST:
-	                            state = this.ParserState.OP;
-	                            value.push(c);
-	                            break;
 	                        case this.ParserState.OPENING:
 	                            state = this.ParserState.OP;
 	                            value.push(c);
@@ -39365,9 +39355,6 @@
 	                } else if (c == '(') {
 	                    switch (state) {
 	                        case this.ParserState.CONST:
-	                            state = this.ParserState.OPENING;
-	                            value.push(c);
-	                            break;
 	                        case this.ParserState.ID:
 	                            state = this.ParserState.OPENING;
 	                            value.push(c);
@@ -39376,19 +39363,14 @@
 	                            return null;
 	                    }
 	                } else if (c == ')') {
-	                    var j = i + 1;
+	                    var j = i;
 	                    switch (state) {
 	                        case this.ParserState.INIT:
-	                            while (c != '(') {
-	                                c = exp.charAt(--i);
-	                            }
-	                            value.push(exp.substr(i, j));
-	                            state = this.ParserState.OPENING;
-	                            break;
 	                        case this.ParserState.OP:
-	                            while (c != '(') {
+	                            while (c != '(' && i > 0) {
 	                                c = exp.charAt(--i);
 	                            }
+	                            if (i < 0) throw "Не сбалансированы скобки";
 	                            value.push(exp.substr(i, j));
 	                            state = this.ParserState.OPENING;
 	                            break;
@@ -39442,82 +39424,28 @@
 	                            return null;
 	                    }
 	                } else if (_c == '*' || _c == '/') {
-	                    var _operator = "";
-	                    var _node3 = {
-	                        type: null,
-	                        left: null,
-	                        right: null
-	                    };
 	                    switch (state) {
 	                        case this.ParserState.ID:
-	                            _operator = this.Operator.MULTIPLY;
-	                            switch (_c) {
-	                                case '*':
-	                                    _operator = this.Operator.MULTIPLY;
-	                                    break;
-	                                case '/':
-	                                    _operator = this.Operator.DIVIDE;
-	                                    break;
-	                                default:
-	                                    break;
-	                            }
-	                            _node3 = {
-	                                type: _operator,
-	                                left: null,
-	                                right: null
-	                            };
-	                            _node3.right = this.parse(value.join(""));
-	                            _node3.left = this.parse(exp.substr(0, _i));
-	                            return _node3;
 	                        case this.ParserState.CONST:
-	                            _operator = this.Operator.MULTIPLY;
-	                            switch (_c) {
-	                                case '*':
-	                                    _operator = this.Operator.MULTIPLY;
-	                                    break;
-	                                case '/':
-	                                    _operator = this.Operator.DIVIDE;
-	                                    break;
-	                                default:
-	                                    break;
-	                            }
-	                            _node3 = {
-	                                type: _operator,
-	                                left: null,
-	                                right: null
-	                            };
-	                            _node3.right = this.parse(value.join(""));
-	                            _node3.left = this.parse(exp.substr(0, _i));
-	                            return _node3;
 	                        case this.ParserState.OPENING:
-	                            _operator = this.Operator.MULTIPLY;
+	                            var _operator = this.Operator.MULTIPLY;
 	                            switch (_c) {
 	                                case '*':
-	                                    _operator = this.Operator.MULTIPLY;
-	                                    break;
+	                                    _operator = this.Operator.MULTIPLY;break;
 	                                case '/':
-	                                    _operator = this.Operator.DIVIDE;
-	                                    break;
-	                                default:
-	                                    break;
+	                                    _operator = this.Operator.DIVIDE;break;
 	                            }
-	                            _node3 = {
+	                            return {
 	                                type: _operator,
-	                                left: null,
-	                                right: null
+	                                left: this.parse(exp.substr(0, _i)),
+	                                right: this.parse(value.join(""))
 	                            };
-	                            _node3.right = this.parse(value.join(""));
-	                            _node3.left = this.parse(exp.substr(0, _i));
-	                            return _node3;
 	                        default:
 	                            return null;
 	                    }
 	                } else if (_c == '(') {
 	                    switch (state) {
 	                        case this.ParserState.CONST:
-	                            state = this.ParserState.OPENING;
-	                            value.push(_c);
-	                            break;
 	                        case this.ParserState.ID:
 	                            state = this.ParserState.OPENING;
 	                            value.push(_c);
@@ -39529,16 +39457,11 @@
 	                    var _j = _i + 1;
 	                    switch (state) {
 	                        case this.ParserState.INIT:
-	                            while (_c != '(') {
-	                                _c = exp.charAt(--_i);
-	                            }
-	                            value.push(exp.substr(_i, _j));
-	                            state = this.ParserState.OPENING;
-	                            break;
 	                        case this.ParserState.OP:
-	                            while (_c != '(') {
+	                            while (_c != '(' && _i > 0) {
 	                                _c = exp.charAt(--_i);
 	                            }
+	                            if (_i < 0) throw "Не сбалансированы скобки";
 	                            value.push(exp.substr(_i, _j));
 	                            state = this.ParserState.OPENING;
 	                            break;
@@ -39552,17 +39475,17 @@
 
 	            if (state == this.ParserState.ID) {
 	                if (value.join("")[0] == "-") {
-	                    var _node4 = {
+	                    var _node2 = {
 	                        type: this.Operator.SUBTRACT,
 	                        left: null,
 	                        right: null
 	                    };
-	                    _node4.left = {
+	                    _node2.left = {
 	                        type: value.join("").substr(1),
 	                        left: null,
 	                        right: null
 	                    };
-	                    return _node4;
+	                    return _node2;
 	                }
 	                return {
 	                    type: value.join(""),
@@ -39571,17 +39494,17 @@
 	                };
 	            } else if (state == this.ParserState.CONST) {
 	                if (value.join("")[0] == "-") {
-	                    var _node5 = {
+	                    var _node3 = {
 	                        type: this.Operator.SUBTRACT,
 	                        left: null,
 	                        right: null
 	                    };
-	                    _node5.left = {
+	                    _node3.left = {
 	                        type: value.join("").substr(1),
 	                        left: null,
 	                        right: null
 	                    };
-	                    return _node5;
+	                    return _node3;
 	                }
 	                return {
 	                    type: value.join(""),
