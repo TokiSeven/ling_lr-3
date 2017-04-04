@@ -39113,7 +39113,27 @@
 	        value: function render() {
 	            this.Main.setData(this.state.data);
 	            var result = this.Main.Do();
-	            var style = result === 'Все хорошо' ? "success" : "danger";
+	            if (Array.isArray(result)) {
+	                result = result.map(function (v) {
+	                    return _react2.default.createElement(
+	                        'li',
+	                        { className: 'list-group-item list-group-item-success' },
+	                        v
+	                    );
+	                });
+	            } else {
+	                result = _react2.default.createElement(
+	                    'li',
+	                    { className: 'list-group-item list-group-item-danger' },
+	                    result
+	                );
+	            }
+	            result = _react2.default.createElement(
+	                'ul',
+	                { className: 'list-group' },
+	                result
+	            );
+
 	            return _react2.default.createElement(
 	                _reactBootstrap.Row,
 	                null,
@@ -39122,15 +39142,7 @@
 	                    { xs: 12, sm: 6, smOffset: 3 },
 	                    _react2.default.createElement('input', { type: 'text', onChange: this.handlerChangedInput, className: 'form-control' }),
 	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement(
-	                        'ul',
-	                        { className: 'list-group' },
-	                        _react2.default.createElement(
-	                            'li',
-	                            { className: "list-group-item list-group-item-" + style },
-	                            result
-	                        )
-	                    )
+	                    result
 	                )
 	            );
 	        }
@@ -39162,370 +39174,178 @@
 	        _classCallCheck(this, Main);
 
 	        this.setData(str);
-
-	        this.Operator = {
-	            ASSIGN: "ASSIGN",
-	            ADD: "ADD",
-	            SUBTRACT: "SUBTRACT",
-	            MULTIPLY: "MULTIPLY",
-	            DIVIDE: "DIVIDE"
-	        };
-
-	        this.NodeType = {
-	            OPERATOR: "OPERATOR",
-	            ID: "ID",
-	            CONSTANT: "CONSTANT"
-	        };
-
-	        this.ParserState = {
-	            INIT: "INIT",
-	            ID: "ID",
-	            CONST: "CONST",
-	            OP: "OP",
-	            OPENING: "OPENING",
-	            CLOSING: "CLOSING",
-	            ERROR: "ERROR"
-	        };
 	    }
 
 	    _createClass(Main, [{
-	        key: "setData",
+	        key: 'setData',
 	        value: function setData(str) {
 	            this.data = str;
+	            this.result = [];
 	        }
 	    }, {
-	        key: "isLetter",
-	        value: function isLetter(str) {
-	            return str.match(/[a-zA-Z]/i);
-	        }
-	    }, {
-	        key: "isDigit",
-	        value: function isDigit(str) {
-	            return str.match(/[0-9]/i);
-	        }
-	    }, {
-	        key: "parse",
-	        value: function parse(exp) {
-	            console.log(exp);
-	            if (exp == null || exp.length == 0) return null;
+	        key: 'parse',
+	        value: function parse(str) {
+	            // это на случай, если наша строка пуста
+	            // (например, минус в начале исходной строки
+	            // стоит и сюда передалась одна его часть - пустая)
+	            if (!str || !str.length) return null;
 
-	            if (exp.match(/\\([a-zA-Z0-9+*-/]+\\)/)) exp = exp.substr(1, exp.length - 1);
-	            if (exp[0] == "-") {
-	                var node = {
-	                    type: this.Operator.SUBTRACT,
-	                    left: this.parse(exp.substr(1)),
-	                    right: null
-	                };
-	                return node;
+	            // сначала идем по плюсам и минусам вне скобок
+	            for (var i = str.length - 1; i >= 0; i--) {
+	                if (str[i] == ')') {
+	                    var cnt = 1;
+	                    var nm = i;
+	                    for (var j = i - 1; j >= 0 && cnt; j--) {
+	                        if (str[j] == ')') cnt++;else if (str[j] == '(') {
+	                            cnt--;nm = j;
+	                        }
+	                    }if (cnt) throw "Скобки не сбалансированны";
+	                    i = nm - 1;
+	                }
+	                if (str[i] == '+' || str[i] == '-') {
+	                    return {
+	                        type: str[i],
+	                        left: this.parse(str.substr(0, i)),
+	                        right: this.parse(str.substr(i + 1))
+	                    };
+	                }
 	            }
 
-	            var state = this.ParserState.INIT;
-	            var value = [];
-	            for (var i = exp.length - 1; i >= 0; i--) {
-	                var c = exp.charAt(i);
-	                if (this.isLetter(c)) {
-	                    if (state == this.ParserState.OPENING) return null;
-	                    state = this.ParserState.ID;
-	                    value.push(c);
-	                } else if (this.isDigit(c)) {
-	                    switch (state) {
-	                        case this.ParserState.ID:
-	                            value.push(c);
-	                            break;
-	                        case this.ParserState.INIT:
-	                            state = this.ParserState.CONST;
-	                            value.push(c);
-	                            break;
-	                        case this.ParserState.OPENING:
-	                            return null;
-	                        default:
-	                            state = this.ParserState.CONST;
-	                            value.push(c);
-	                            break;
-	                    }
-	                } else if (c == '=' || c == '+' || c == '-') {
-	                    var operator = void 0;
-	                    var _node = {
-	                        left: null,
-	                        right: null,
-	                        type: null
+	            // окей, плюсы и еденицы разобрали, значит, их нет
+	            // тогда пропарсим умножение и деление
+	            for (var _i = str.length - 1; _i >= 0; _i--) {
+	                if (str[_i] == ')') {
+	                    var _cnt = 1;
+	                    var _nm = _i;
+	                    for (var _j = _i - 1; _j >= 0 && _cnt; _j--) {
+	                        if (str[_j] == ')') _cnt++;else if (str[_j] == '(') {
+	                            _cnt--;_nm = _j;
+	                        }
+	                    }if (_cnt) throw "Скобки не сбалансированны";
+	                    _i = _nm - 1;
+	                }
+	                if (str[_i] == '*' || str[_i] == '/') {
+	                    return {
+	                        type: str[_i],
+	                        left: this.parse(str.substr(0, _i)),
+	                        right: this.parse(str.substr(_i + 1))
 	                    };
-	                    switch (state) {
-	                        case this.ParserState.ID:
-	                            state = this.ParserState.OP;
-	                            operator = this.Operator.ASSIGN;
-	                            switch (c) {
-	                                case '=':
-	                                    operator = this.Operator.ASSIGN;
-	                                    break;
-	                                case '+':
-	                                    operator = this.Operator.ADD;
-	                                    break;
-	                                case '-':
-	                                    operator = this.Operator.SUBTRACT;
-	                                    break;
-	                                default:
-	                                    break;
-	                            }
-	                            _node = {
-	                                type: operator,
-	                                left: null,
-	                                right: null
-	                            };
-	                            if (0 - i == 0) {
-	                                value.push(c);
-	                            }
-	                            _node.right = this.parse(value.join(""));
-	                            _node.left = this.parse(exp.substr(0, i));
-	                            return _node;
-	                        case this.ParserState.CONST:
-	                            state = this.ParserState.OP;
-	                            operator = this.Operator.ASSIGN;
-	                            switch (c) {
-	                                case '=':
-	                                    operator = this.Operator.ASSIGN;
-	                                    break;
-	                                case '+':
-	                                    operator = this.Operator.ADD;
-	                                    break;
-	                                case '-':
-	                                    operator = this.Operator.SUBTRACT;
-	                                    break;
-	                                default:
-	                                    break;
-	                            }
-	                            _node = {
-	                                type: operator,
-	                                left: null,
-	                                right: null
-	                            };
-	                            if (0 - i == 0) {
-	                                value.push(c);
-	                            }
-	                            _node.right = this.parse(value.join(""));
-	                            _node.left = this.parse(exp.substr(0, i));
-	                            return _node;
-	                        case this.ParserState.OPENING:
-	                            state = this.ParserState.OP;
-	                            operator = this.Operator.ASSIGN;
-	                            switch (c) {
-	                                case '=':
-	                                    operator = this.Operator.ASSIGN;
-	                                    break;
-	                                case '+':
-	                                    operator = this.Operator.ADD;
-	                                    break;
-	                                case '-':
-	                                    operator = this.Operator.SUBTRACT;
-	                                    break;
-	                                default:
-	                                    break;
-	                            }
-	                            _node = {
-	                                type: operator,
-	                                left: null,
-	                                right: null
-	                            };
-	                            if (0 - i == 0) {
-	                                value.push(c);
-	                            }
-	                            _node.right = this.parse(value.join(""));
-	                            _node.left = this.parse(exp.substr(0, i));
-	                            return _node;
-	                        case this.ParserState.INIT:
-	                            value.push(c);
-	                            break;
-	                        case this.ParserState.OP:
-	                            value.push(c);
-	                            break;
-	                        default:
-	                            return null;
-	                    }
-	                } else if (c == '*' || c == '/') {
-	                    switch (state) {
-	                        case this.ParserState.ID:
-	                        case this.ParserState.CONST:
-	                        case this.ParserState.OPENING:
-	                            state = this.ParserState.OP;
-	                            value.push(c);
-	                            break;
-	                        default:
-	                            return null;
-	                    }
-	                } else if (c == '(') {
-	                    switch (state) {
-	                        case this.ParserState.CONST:
-	                        case this.ParserState.ID:
-	                            state = this.ParserState.OPENING;
-	                            value.push(c);
-	                            break;
-	                        default:
-	                            return null;
-	                    }
-	                } else if (c == ')') {
-	                    var j = i;
-	                    switch (state) {
-	                        case this.ParserState.INIT:
-	                        case this.ParserState.OP:
-	                            while (c != '(' && i > 0) {
-	                                c = exp.charAt(--i);
-	                            }
-	                            if (i < 0) throw "Не сбалансированы скобки";
-	                            value.push(exp.substr(i, j));
-	                            state = this.ParserState.OPENING;
-	                            break;
-	                        default:
-	                            return null;
-	                    }
-	                } else {
-	                    throw "String is incorrect";
+	                }
+	            }
+
+	            // чтож... остались только скобки, да сами циферки и буковки
+	            // давайте начнем со скобок
+	            if (str[0] == '(' && str[str.length - 1] == ')') return this.parse(str.substr(1, str.length - 2));
+
+	            // хммм... нет ни операторов, ни скобок, пожалуй, это буковка или цифра, да пусть так оно и будет!
+	            return {
+	                type: str,
+	                left: null,
+	                right: null
+	            };
+	        }
+	    }, {
+	        key: 'isOperator',
+	        value: function isOperator(s) {
+	            return s == '+' || s == '-' || s == '*' || s == '/' || s == '=';
+	        }
+	    }, {
+	        key: 'op',
+	        value: function op(operator, left, right) {
+	            switch (operator) {
+	                case '=':
+	                    return "mov " + left + ", eax";
+	                case '+':
+	                    return "add " + left + ", " + right;
+	                case '-':
+	                    return "sub " + left + ", " + right;
+	                case '*':
+	                    return "imul " + left + ", " + right;
+	                case '/':
+	                    return "idiv " + left + ", " + right;
+	                default:
 	                    return null;
-	                }
 	            }
-
-	            state = this.ParserState.INIT;
-	            value = [];
-	            for (var _i = exp.length - 1; _i >= 0; _i--) {
-	                var _c = exp.charAt(_i);
-	                if (this.isLetter(_c)) {
-	                    switch (state) {
-	                        case this.ParserState.OPENING:
-	                            return null;
-	                        default:
-	                            state = this.ParserState.ID;
-	                            value.push(_c);
-	                            break;
-	                    }
-	                } else if (this.isDigit(_c)) {
-	                    switch (state) {
-	                        case this.ParserState.ID:
-	                            value.push(_c);
-	                            break;
-	                        case this.ParserState.INIT:
-	                            state = this.ParserState.CONST;
-	                            value.push(_c);
-	                            break;
-	                        case this.ParserState.OPENING:
-	                            return null;
-	                        default:
-	                            state = this.ParserState.CONST;
-	                            value.push(_c);
-	                            break;
-	                    }
-	                } else if (_c == '-' || _c == '+') {
-	                    switch (state) {
-	                        case this.ParserState.INIT:
-	                            value.push(_c);
-	                            break;
-	                        case this.ParserState.OP:
-	                            value.push(_c);
-	                            break;
-	                        default:
-	                            return null;
-	                    }
-	                } else if (_c == '*' || _c == '/') {
-	                    switch (state) {
-	                        case this.ParserState.ID:
-	                        case this.ParserState.CONST:
-	                        case this.ParserState.OPENING:
-	                            var _operator = this.Operator.MULTIPLY;
-	                            switch (_c) {
-	                                case '*':
-	                                    _operator = this.Operator.MULTIPLY;break;
-	                                case '/':
-	                                    _operator = this.Operator.DIVIDE;break;
-	                            }
-	                            return {
-	                                type: _operator,
-	                                left: this.parse(exp.substr(0, _i)),
-	                                right: this.parse(value.join(""))
-	                            };
-	                        default:
-	                            return null;
-	                    }
-	                } else if (_c == '(') {
-	                    switch (state) {
-	                        case this.ParserState.CONST:
-	                        case this.ParserState.ID:
-	                            state = this.ParserState.OPENING;
-	                            value.push(_c);
-	                            break;
-	                        default:
-	                            return null;
-	                    }
-	                } else if (_c == ')') {
-	                    var _j = _i + 1;
-	                    switch (state) {
-	                        case this.ParserState.INIT:
-	                        case this.ParserState.OP:
-	                            while (_c != '(' && _i > 0) {
-	                                _c = exp.charAt(--_i);
-	                            }
-	                            if (_i < 0) throw "Не сбалансированы скобки";
-	                            value.push(exp.substr(_i, _j));
-	                            state = this.ParserState.OPENING;
-	                            break;
-	                        default:
-	                            return null;
-	                    }
-	                } else {
-	                    return null;
-	                }
-	            }
-
-	            if (state == this.ParserState.ID) {
-	                if (value.join("")[0] == "-") {
-	                    var _node2 = {
-	                        type: this.Operator.SUBTRACT,
-	                        left: null,
-	                        right: null
-	                    };
-	                    _node2.left = {
-	                        type: value.join("").substr(1),
-	                        left: null,
-	                        right: null
-	                    };
-	                    return _node2;
-	                }
-	                return {
-	                    type: value.join(""),
-	                    left: null,
-	                    right: null
-	                };
-	            } else if (state == this.ParserState.CONST) {
-	                if (value.join("")[0] == "-") {
-	                    var _node3 = {
-	                        type: this.Operator.SUBTRACT,
-	                        left: null,
-	                        right: null
-	                    };
-	                    _node3.left = {
-	                        type: value.join("").substr(1),
-	                        left: null,
-	                        right: null
-	                    };
-	                    return _node3;
-	                }
-	                return {
-	                    type: value.join(""),
-	                    left: null,
-	                    right: null
-	                };
-	            }
-
-	            return null;
 	        }
 	    }, {
-	        key: "Do",
+	        key: 'generate',
+	        value: function generate(node) {
+	            // нет смысла делать что-то для пустой вершины (или если она - цифра или буква)
+	            if (node === null || node.left === null && node.right === null) return;
+
+	            // 5 условие 
+	            var isCase5 = node.left !== null && node.right !== null && this.isOperator(node.left.type) && this.isOperator(node.right.type);
+
+	            this.generate(node.right);
+	            if (isCase5) this.result.push("push eax");
+	            this.generate(node.left);
+	            if (isCase5) {
+	                this.result.push("pop edx");
+	                this.result.push(this.op(node.type, "eax", "edx"));
+	            }
+
+	            if (this.isOperator(node.type)) {
+	                // условие 1
+	                if (node.right !== null && node.left !== null) {
+	                    if (!this.isOperator(node.right.type) && !this.isOperator(node.left.type)) {
+	                        this.result.push("mov eax, " + node.left.type);
+	                        this.result.push(this.op(node.type, "eax", node.right.type));
+	                    }
+	                    // условие 2
+	                    if (!this.isOperator(node.right.type) && this.isOperator(node.left.type)) {
+	                        this.result.push(this.op(node.type, "eax", node.right.type));
+	                    }
+	                    // условие 3
+	                    if (!this.isOperator(node.left.type) && this.isOperator(node.right.type) && (node.type == '+' || node.type == '*')) {
+	                        this.result.push(this.op(node.type, "eax", node.left.type));
+	                    }
+	                    // условие 4
+	                    if (!this.isOperator(node.left.type) && this.isOperator(node.right.type) && (node.type == '-' || node.type == '/' || node.type == '=')) {
+	                        if (node.type == '=') {
+	                            this.result.push("mov " + node.left.type + ", eax");
+	                        } else {
+	                            this.result.push("mov edx, " + node.left.type);
+	                            this.result.push("xchg eax, edx");
+	                            this.result.push(this.op(node.type, "eax", "edx"));
+	                        }
+	                    }
+	                }
+	                // условие 6
+	                if (node.left === null) {
+	                    if (!this.isOperator(node.right.type)) this.result.push("mov eax, " + node.right.type);
+	                    this.result.push("neg eax");
+	                }
+	                if (node.right === null) {
+	                    if (!this.isOperator(node.left.type)) this.result.push("mov eax, " + node.left.type);
+	                    this.result.push("neg eax");
+	                }
+	            }
+	        }
+	    }, {
+	        key: 'Do',
 	        value: function Do() {
 	            if (this.data.length >= 3) {
+	                var brackets = 0;
+	                for (var i = 0; i < this.data.length; i++) {
+	                    if (this.data[i] == '(') brackets++;else if (this.data[i] == ')') brackets--;
+	                }
+	                if (brackets > 0) return "Скобки не сбалансированы";
 	                var eq = this.data.indexOf('=');
-	                var root = {
-	                    left: this.parse(this.data.substr(0, eq)),
-	                    right: this.parse(this.data.substr(eq + 1)),
-	                    type: this.Operator.ASSIGN
-	                };
+	                if (eq == -1) return "Нет оператора равно";
+	                var root = null;
+	                try {
+	                    root = {
+	                        left: this.parse(this.data.substr(0, eq)),
+	                        right: this.parse(this.data.substr(eq + 1)),
+	                        type: "="
+	                    };
+	                } catch (e) {
+	                    return e;
+	                }
+	                this.generate(root);
 	                console.log(root);
+	                console.log(this.result);
+	                return this.result;
 	            }
 	        }
 	    }]);

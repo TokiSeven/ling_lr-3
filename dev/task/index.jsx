@@ -21,17 +21,31 @@ export default class Task extends React.Component{
     render(){
         this.Main.setData(this.state.data);
         let result = this.Main.Do();
-        let style = (result === 'Все хорошо') ? "success" : "danger";
+        if (Array.isArray(result)){
+            result = result.map(v => (
+                <li className = "list-group-item list-group-item-success">
+                    {v}
+                </li>
+            ));
+        }else{
+            result = (
+                <li className = "list-group-item list-group-item-danger">
+                    {result}
+                </li>
+            );
+        }
+        result = (
+            <ul className = "list-group">
+                {result}
+            </ul>
+        );
+
         return(
             <Row>
                 <Col xs = {12} sm = {6} smOffset = {3}>
                     <input type = "text" onChange = {this.handlerChangedInput} className = "form-control" />
                     <br />
-                    <ul className = "list-group">
-                        <li className = {"list-group-item list-group-item-" + style}>
-                            {result}
-                        </li>
-                    </ul>
+                    {result}
                 </Col>
             </Row>
         );
