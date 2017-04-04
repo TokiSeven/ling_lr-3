@@ -98,7 +98,7 @@
 	                        _react2.default.createElement(
 	                            'h1',
 	                            null,
-	                            '\u0410\u0432\u0442\u043E\u043C\u0430\u0442\u044B \u0441 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u043D\u043E\u0439 \u043F\u0430\u043C\u044F\u0442\u044C\u044E'
+	                            '\u041F\u043E\u043D\u044F\u0442\u0438\u0435 \u043E \u0441\u0438\u043D\u0442\u0430\u043A\u0441\u0438\u0447\u0435\u0441\u043A\u0438 \u0443\u043F\u0440\u0430\u0432\u043B\u044F\u0435\u043C\u043E\u0439 \u0442\u0440\u0430\u043D\u0441\u043B\u044F\u0446\u0438\u0438'
 	                        ),
 	                        _react2.default.createElement(
 	                            'h2',

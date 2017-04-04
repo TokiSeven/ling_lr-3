@@ -10,7 +10,7 @@ export default class Page extends React.Component{
             <Grid>
                 <Row>
                     <Col xs = {12} sm = {12} className = "text-center">
-                        <h1>Автоматы с магазинной памятью</h1>
+                        <h1>Понятие о синтаксически управляемой трансляции</h1>
                         <h2>Рябцев Владимир Дмитриевич.</h2>
                     </Col>
                 </Row>
